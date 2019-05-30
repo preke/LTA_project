@@ -328,7 +328,7 @@ if __name__ == '__main__':
     # classification
     X_train, X_test, y_train, y_test = train_test_split(df_se1_features, df_se1_labels, test_size = 0.2, stratify=df_se1_labels)
 
-    brf = BalancedRandomForestClassifier(n_estimators=1000, criterion = 'gini', random_state=0)
+    brf = BalancedRandomForestClassifier(n_estimators=300, criterion = 'gini', random_state=0)
     brf.fit(X_train, y_train) 
     y_pred = brf.predict(X_test)
     imp_feature = brf.feature_importances_
