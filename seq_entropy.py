@@ -249,7 +249,24 @@ if __name__ == '__main__':
     '''
     
     lib_se1 = pd.read_csv('Std_Lib_features_2016_se1.csv')
-    df_se1  = lib_se1
+    his_2015_se1 = pd.read_csv('Std_list_atRist_2015_se1.csv')
+    his_2015_se2 = pd.read_csv('Std_list_atRist_2015_se2.csv')
+    his_2015_se1.columns = ['MASKED_STUDENT_ID', '2015_se1_CUM_GPA']
+    his_2015_se2.columns = ['MASKED_STUDENT_ID', '2015_se2_CUM_GPA']
+
+    his_lib = pd.merge(lib_se1, his_2015_se1, on='MASKED_STUDENT_ID', how='left').fillna(0)
+    his_lib = pd.merge(his_lib, his_2015_se2, on='MASKED_STUDENT_ID', how='left').fillna(0)
+
+    df_se1 = pd.merge(df_all_entropy, his_lib, on='MASKED_STUDENT_ID', how='left').fillna(0)
+    
+    ''' 
+        Add historical grades for one year
+    
+    '''
+    
+    
+    # lib_se1 = pd.read_csv('Std_Lib_features_2016_se1.csv')
+    # df_se1  = lib_se1
 
     df = pd.read_csv('DR0008_activity_accumulator_2016_09.csv', sep='\t')
     df['weekday'] = pd.to_datetime(df['timestamp']).dt.dayofweek
@@ -346,6 +363,15 @@ if __name__ == '__main__':
         1. 加入历史成绩特征
         2. 观察具体 weekday 和 weekend 两类数据分布具体有何不同
         3. 测试用半学期行为数据early predict
+        
+        
+        2019.6.13
+        1. 加入历史成绩特征
+        Best acc now: 0.7534047834691893
+        
+        Next Step:
+        1. 观察具体 weekday 和 weekend 两类数据分布具体有何不同
+        2. 测试用半学期行为数据early predict
     '''
 
 
